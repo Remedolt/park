@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>Park Ustası</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="app">
+    <canvas id="game" tabindex="0"></canvas>
+
+    <div id="hud" class="hidden">
+      <div class="hud-top">
+        <div class="hud-card">
+          <span class="label">Süre</span>
+          <span id="hud-time" class="value amber">100</span>
+        </div>
+        <div class="hud-card">
+          <span class="label">Can</span>
+          <span id="hud-lives" class="value">❤ ❤ ❤</span>
+        </div>
+        <div class="hud-card">
+          <span class="label">Seviye</span>
+          <span id="hud-level" class="value">1 / 5</span>
+        </div>
+      </div>
+
+      <div class="hud-speed">
+        <div id="speed-num">0</div>
+        <div class="speed-unit">km/h</div>
+        <div id="gear">N</div>
+      </div>
+
+      <div id="park-hint" class="hidden">HEDEF PARK YERİNE YANAŞ</div>
+      <div id="align-meter" class="hidden">
+        <div class="align-bar"><div id="align-fill"></div></div>
+        <span>Hizalama</span>
+      </div>
+    </div>
+
+    <div id="overlay">
+      <div class="menu">
+        <p class="kicker">GERÇEKÇİ 2D PARK SİMÜLATÖRÜ</p>
+        <h1>PARK USTASI</h1>
+        <p class="blurb">
+          Arabayı sarı çizgili alana sorunsuz park et.
+          Motor, lastik ve şehir sesi açık. Çarpma can kaybettirir.
+        </p>
+        <ul class="controls">
+          <li><kbd>W</kbd> <kbd>↑</kbd> gaz</li>
+          <li><kbd>S</kbd> <kbd>↓</kbd> <kbd>R</kbd> fren / geri vites</li>
+          <li><kbd>A</kbd> <kbd>D</kbd> direksiyon</li>
+          <li><kbd>Boşluk</kbd> el freni</li>
+          <li><kbd>H</kbd> korna · <kbd>T</kbd> seviyeyi yeniden başlat</li>
+        </ul>
+        <button id="btn-start" type="button">Motoru Çalıştır</button>
+        <p class="hint">Ses tarayıcı izni için ilk tıklamada açılır.</p>
+      </div>
+    </div>
+
+    <div id="touch" class="hidden">
+      <div class="pad left-pad">
+        <button data-key="steerL" type="button">◀</button>
+        <button data-key="steerR" type="button">▶</button>
+      </div>
+      <div class="pad right-pad">
+        <button data-key="throttle" type="button">Gaz</button>
+        <button data-key="reverse" type="button">Geri</button>
+        <button data-key="handbrake" type="button">El Freni</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/audio.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>
