@@ -197,9 +197,9 @@
 
   const LAMP_R = 5;
   const LAMPS = [];
-  for (let y = -600; y <= 600; y += 240) {
-    LAMPS.push({ x: -118, y, side: -1, r: LAMP_R });
-    LAMPS.push({ x: 118, y: y + 120, side: 1, r: LAMP_R });
+  for (let y = -540; y <= 540; y += 240) {
+    LAMPS.push({ x: -220, y, side: 1, r: LAMP_R });
+    LAMPS.push({ x: 220, y: y + 120, side: -1, r: LAMP_R });
   }
 
   function buildLevels() {
@@ -240,8 +240,8 @@
       { x: 268, y: 140, r: 17 },
       { x: 262, y: -280, r: 15 },
       { x: 270, y: 480, r: 16 },
-      { x: -80, y: 640, r: 14 },
-      { x: 70, y: -640, r: 15 },
+      { x: -266, y: 620, r: 14 },
+      { x: 266, y: -620, r: 15 },
     ];
 
     return [
