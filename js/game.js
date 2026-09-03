@@ -1266,7 +1266,7 @@
       const p1 = base[i];
       const p2 = base[(i + 1) % 4];
       const n = normals[i];
-      if (n.x * off.x + n.y * off.y <= 0) continue;
+      if (n.x * off.x + n.y * off.y >= 0) continue;
       const t1 = top[i];
       const t2 = top[(i + 1) % 4];
       const s = faceShade(n.x, n.y);
