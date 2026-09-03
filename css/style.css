@@ -75,6 +75,14 @@ html, body {
   font-weight: 700;
 }
 
+.hud-card .sub {
+  display: block;
+  margin-top: 2px;
+  font-size: 11px;
+  color: var(--amber);
+  letter-spacing: 0.06em;
+}
+
 .amber { color: var(--amber); }
 
 .hud-speed {
