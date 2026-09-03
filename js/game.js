@@ -32,6 +32,7 @@
   let last = 0;
   let state = "menu";
   let levelIndex = 0;
+  let runStart = 0;
   let lives = 3;
   let timeLeft = 100;
   let parkHold = 0;
@@ -165,7 +166,7 @@
     if (dist >= t.r) return null;
     const nx = dist < 1e-4 ? 1 : dx / dist;
     const ny = dist < 1e-4 ? 0 : dy / dist;
-    return { pen: t.r - dist, nx, ny };
+    return { pen: t.r - dist, nx: -nx, ny: -ny };
   }
 
   function makeCar(x, y, angle, color, opts = {}) {
@@ -194,10 +195,11 @@
     night: { tint: "#3b4a86", lights: true, sky: "#0a0d18", lamp: 1 },
   };
 
+  const LAMP_R = 5;
   const LAMPS = [];
   for (let y = -600; y <= 600; y += 240) {
-    LAMPS.push({ x: -118, y, side: -1 });
-    LAMPS.push({ x: 118, y: y + 120, side: 1 });
+    LAMPS.push({ x: -118, y, side: -1, r: LAMP_R });
+    LAMPS.push({ x: 118, y: y + 120, side: 1, r: LAMP_R });
   }
 
   function buildLevels() {
@@ -339,7 +341,7 @@
           right: [1, 2, 5, 3, 4, 6, 1, 2, 4],
         }).filter((c) => !(Math.abs(c.x - leftX) < 1 && Math.abs(c.y + 120) < 1)),
         traffic: [
-          makeCar(42, -520, Math.PI / 2, "#1b7a4a", { moving: true, speed: 68, lane: 42 }),
+          makeCar(42, -400, Math.PI / 2, "#1b7a4a", { moving: true, speed: 68, lane: 42 }),
           makeCar(-42, 260, -Math.PI / 2, "#c0392b", { moving: true, speed: -74, lane: -42 }),
         ],
       },
@@ -573,9 +575,10 @@
     return m ? clamp(parseInt(m[1], 10) - 1, 0, LEVELS.length - 1) : 0;
   }
 
-  function startGame() {
+  function startGame(levelStart) {
     lives = 3;
-    levelIndex = startLevelFromHash();
+    levelIndex = clamp(levelStart == null ? levelIndex : levelStart, 0, LEVELS.length - 1);
+    runStart = levelIndex;
     resetLevel();
     state = "play";
     overlay.classList.add("hidden");
@@ -704,6 +707,10 @@
       const h = hitCircle(body, t);
       if (h) hits.push(h);
     }
+    for (const l of LAMPS) {
+      const h = hitCircle(body, l);
+      if (h) hits.push(h);
+    }
     for (const c of L.parked.concat(L.traffic)) {
       const h = sat(body, carRect(c));
       if (h) hits.push(h);
@@ -731,7 +738,10 @@
     const sa = Math.sin(-s.angle);
     const lx = dx * ca - dy * sa;
     const ly = dx * sa + dy * ca;
-    const pos = 1 - clamp(Math.max(Math.abs(lx) / (s.h * 0.38), Math.abs(ly) / (s.w * 0.38)), 0, 1);
+    const tolX = Math.max(6, (s.h - p.l) / 2);
+    const tolY = Math.max(5, (s.w - p.w) / 2);
+    const off = Math.max(Math.abs(lx) / tolX, Math.abs(ly) / tolY);
+    const pos = 1 - clamp(off / 3, 0, 1);
     let ad = Math.abs(wrapAngle(p.angle - s.angle));
     ad = Math.min(ad, Math.abs(wrapAngle(ad - Math.PI)));
     const ang = 1 - clamp(ad / 0.45, 0, 1);
@@ -844,9 +854,10 @@
       if (parkHold > 0.85) {
         audio.success();
         if (levelIndex >= LEVELS.length - 1) {
-          showMenu("Park Ustası!", `${LEVELS.length} seviyeyi de temizledin. Motoru kapatsana.`, "Baştan", () => {
+          const cleared = LEVELS.length - runStart;
+          showMenu("Park Ustası!", `${cleared} seviyeyi temizledin. Motoru kapatsana.`, "Baştan", () => {
             audio.start();
-            startGame();
+            startGame(0);
           });
         } else {
           showMenu("Park Tamam", `${world.level.name} bitti. Sıradaki daha zor.`, "Sonraki Seviye", () => {
@@ -1447,8 +1458,15 @@
 
   document.getElementById("btn-start").addEventListener("click", async () => {
     await audio.start();
-    startGame();
+    startGame(startLevelFromHash());
   });
+
+  window.__park = {
+    get world() { return world; },
+    get levelIndex() { return levelIndex; },
+    score: () => parkingScore(),
+    levels: LEVELS,
+  };
 
   initTextures();
   resize();
