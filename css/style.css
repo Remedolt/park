@@ -1,0 +1,282 @@
+:root {
+  --bg: #07080a;
+  --glass: rgba(8, 10, 14, 0.72);
+  --line: rgba(255, 196, 80, 0.35);
+  --amber: #ffc14a;
+  --text: #f4f1ea;
+  --muted: #9aa3ad;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Segoe UI", "Trebuchet MS", sans-serif;
+}
+
+#app {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+#game {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  background: #1a1c1f;
+}
+
+.hidden {
+  display: none !important;
+}
+
+#hud {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.hud-top {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  padding: 18px 16px 0;
+}
+
+.hud-card {
+  min-width: 110px;
+  padding: 8px 16px;
+  background: var(--glass);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  text-align: center;
+}
+
+.hud-card .label {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.hud-card .value {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.hud-card .sub {
+  display: block;
+  margin-top: 2px;
+  font-size: 11px;
+  color: var(--amber);
+  letter-spacing: 0.06em;
+}
+
+.amber { color: var(--amber); }
+
+.hud-speed {
+  position: absolute;
+  right: 24px;
+  bottom: 28px;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 40%, rgba(30, 34, 40, 0.92), rgba(6, 7, 9, 0.95));
+  border: 2px solid rgba(255, 193, 74, 0.45);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 24px rgba(0, 0, 0, 0.45);
+}
+
+#speed-num {
+  font-size: 36px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.speed-unit {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+
+#gear {
+  margin-top: 4px;
+  color: var(--amber);
+  font-weight: 700;
+  letter-spacing: 0.2em;
+}
+
+#park-hint {
+  position: absolute;
+  left: 50%;
+  bottom: 36px;
+  transform: translateX(-50%);
+  padding: 8px 16px;
+  background: rgba(255, 193, 74, 0.16);
+  border: 1px solid var(--amber);
+  border-radius: 999px;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+}
+
+#align-meter {
+  position: absolute;
+  left: 24px;
+  bottom: 36px;
+  width: 180px;
+  background: var(--glass);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+
+#align-meter span {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.align-bar {
+  height: 8px;
+  background: #222;
+  border-radius: 99px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+#align-fill {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, #d94a3a, #ffc14a, #3ad97a);
+}
+
+#overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(circle at 50% 20%, rgba(255, 193, 74, 0.12), transparent 45%),
+    rgba(5, 6, 8, 0.82);
+  backdrop-filter: blur(8px);
+}
+
+.menu {
+  width: min(520px, 92vw);
+  text-align: center;
+  padding: 36px 28px;
+  background: rgba(10, 12, 16, 0.88);
+  border: 1px solid rgba(255, 193, 74, 0.28);
+  border-radius: 18px;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5);
+}
+
+.kicker {
+  color: var(--amber);
+  letter-spacing: 0.28em;
+  font-size: 11px;
+}
+
+h1 {
+  margin: 10px 0 14px;
+  font-size: clamp(36px, 7vw, 56px);
+  letter-spacing: 0.08em;
+}
+
+.blurb {
+  color: var(--muted);
+  line-height: 1.5;
+  margin-bottom: 18px;
+}
+
+.controls {
+  list-style: none;
+  display: grid;
+  gap: 6px;
+  margin-bottom: 22px;
+  color: #d5dbe3;
+  font-size: 14px;
+}
+
+kbd {
+  display: inline-block;
+  min-width: 22px;
+  padding: 2px 6px;
+  margin: 0 2px;
+  border: 1px solid #555;
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  background: #1d2128;
+  font-size: 12px;
+}
+
+#btn-start,
+.menu button {
+  cursor: pointer;
+  border: 0;
+  background: linear-gradient(180deg, #ffd36a, #e59a1d);
+  color: #1a1204;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 14px 28px;
+  border-radius: 999px;
+  font-size: 15px;
+}
+
+#btn-start:hover {
+  filter: brightness(1.08);
+}
+
+.hint {
+  margin-top: 12px;
+  color: #6f7782;
+  font-size: 12px;
+}
+
+#touch {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.pad {
+  position: absolute;
+  bottom: 24px;
+  display: flex;
+  gap: 10px;
+  pointer-events: auto;
+}
+
+.left-pad { left: 16px; }
+.right-pad { right: 16px; flex-direction: column; }
+
+.pad button {
+  min-width: 64px;
+  min-height: 48px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(0, 0, 0, 0.45);
+  color: white;
+  border-radius: 10px;
+  font-weight: 700;
+}
+
+@media (min-width: 900px) {
+  #touch { display: none !important; }
+}
